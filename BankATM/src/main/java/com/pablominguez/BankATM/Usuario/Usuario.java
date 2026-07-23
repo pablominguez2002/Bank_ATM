@@ -1,19 +1,26 @@
 package com.pablominguez.BankATM.Usuario;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 @Data
 @Entity
+@Table(name = "bank_database")
+@RequiredArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Usuario
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private long id;
     private String name;
     private String apellidos;
     @Column(name = "dni", unique = true, nullable = false)
-    private final String dni;
+    private String dni;
     private String email;
     private String phone;
     private double money;
