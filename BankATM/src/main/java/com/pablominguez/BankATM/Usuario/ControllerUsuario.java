@@ -119,4 +119,13 @@ public class ControllerUsuario
 
         return ResponseEntity.ok().body(map);
     }
+
+    @PutMapping("user/transaction/from/{fDni}/to/{tDni}")
+    public ResponseEntity<String> transactionMoney(@PathVariable String fDni, @PathVariable String tDni, @RequestBody Double money)
+    {
+        if(serviceUsuario.transactionMoney(fDni, tDni, money))
+            return ResponseEntity.ok().body("The Transaction has Been Properly Done from: "+ fDni + " to: "+ tDni);
+        else
+            return ResponseEntity.internalServerError().body("Not Enough Money in the Account");
+    }
 }

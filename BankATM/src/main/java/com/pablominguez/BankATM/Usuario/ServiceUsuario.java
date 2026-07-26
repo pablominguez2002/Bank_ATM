@@ -163,4 +163,27 @@ public class ServiceUsuario
 
         return dto;
     }
+
+    @Transactional
+    public boolean transactionMoney(String fDni, String tDni, Double money)
+    {
+        Optional<Usuario> from = repoUsuario.findByDni(fDni);
+
+        Optional<Usuario> to = repoUsuario.findByDni(tDni);
+
+        double fMoney = 0, tMoney=0;
+
+        if(money<=from.get().getMoney())
+            fMoney = from.get().getMoney() - money;
+        else
+            return false;
+
+        repoUsuario.updateMoneyByDni(fDni,fMoney);
+
+        tMoney = to.get().getMoney() + money;
+
+        repoUsuario.updateMoneyByDni(tDni, tMoney);
+
+        return true;
+    }
 }

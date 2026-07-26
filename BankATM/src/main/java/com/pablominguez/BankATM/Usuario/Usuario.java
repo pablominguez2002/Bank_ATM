@@ -17,6 +17,7 @@ public class Usuario
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private long id;
+    //private Account[] accounts;  with id of account, money in that acocunt, comisions to remove at each year of certain period
     private String name;
     private String apellidos;
     @Column(name = "dni", unique = true, nullable = false)
