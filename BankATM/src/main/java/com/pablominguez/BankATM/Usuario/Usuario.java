@@ -18,11 +18,13 @@ public class Usuario
     @EqualsAndHashCode.Include
     private long id;
     //private Account[] accounts;  with id of account, money in that acocunt, comisions to remove at each year of certain period
+    //Credit Cards
     private String name;
     private String apellidos;
     @Column(name = "dni", unique = true, nullable = false)
     private String dni;
     private String email;
+    @Column(unique = true)
     private String phone;
     private double money;
     private String location;

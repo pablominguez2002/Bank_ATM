@@ -12,6 +12,8 @@ public interface RepoUsuario extends JpaRepository<Usuario, Long>
 {
     public Optional<Usuario> findByDni(String dni);
 
+    public Optional<Usuario> findByPhone(String phone);
+
     public Optional<Usuario> findByNameAndApellidos(String name, String apellidos);
 
     public Optional<Usuario> findByMoneyGreaterThan(long limit);

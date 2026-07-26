@@ -165,7 +165,7 @@ public class ServiceUsuario
     }
 
     @Transactional
-    public boolean transactionMoney(String fDni, String tDni, Double money)
+    public boolean transferMoney(String fDni, String tDni, Double money)
     {
         Optional<Usuario> from = repoUsuario.findByDni(fDni);
 
@@ -183,6 +183,29 @@ public class ServiceUsuario
         tMoney = to.get().getMoney() + money;
 
         repoUsuario.updateMoneyByDni(tDni, tMoney);
+
+        return true;
+    }
+
+    @Transactional
+    public boolean bizumMoney(String fPhone, String tPhone, Double money)
+    {
+        Optional<Usuario> from = repoUsuario.findByPhone(fPhone);
+
+        Optional<Usuario> to = repoUsuario.findByPhone(tPhone);
+
+        double fMoney = 0, tMoney=0;
+
+        if(money<=from.get().getMoney())
+            fMoney = from.get().getMoney() - money;
+        else
+            return false;
+
+        repoUsuario.updateMoneyByDni(from.get().getDni(),fMoney);
+
+        tMoney = to.get().getMoney() + money;
+
+        repoUsuario.updateMoneyByDni(to.get().getDni(), tMoney);
 
         return true;
     }

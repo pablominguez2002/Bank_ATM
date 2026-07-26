@@ -120,12 +120,23 @@ public class ControllerUsuario
         return ResponseEntity.ok().body(map);
     }
 
-    @PutMapping("user/transaction/from/{fDni}/to/{tDni}")
-    public ResponseEntity<String> transactionMoney(@PathVariable String fDni, @PathVariable String tDni, @RequestBody Double money)
+    @PutMapping("user/transfer/from/{fDni}/to/{tDni}")
+    public ResponseEntity<String> transferMoney(@PathVariable String fDni, @PathVariable String tDni, @RequestBody Double money)
     {
-        if(serviceUsuario.transactionMoney(fDni, tDni, money))
-            return ResponseEntity.ok().body("The Transaction has Been Properly Done from: "+ fDni + " to: "+ tDni);
+        if(serviceUsuario.transferMoney(fDni, tDni, money))
+            return ResponseEntity.ok().body("The Transference has Been Properly Done from: "+ fDni + " to: "+ tDni);
         else
             return ResponseEntity.internalServerError().body("Not Enough Money in the Account");
     }
+
+    @PutMapping("user/bizum/from/{fPhone}/to/{tPhone}")
+    public ResponseEntity<String> bizumMoney(@PathVariable String fPhone, @PathVariable String tPhone, @RequestBody Double money)
+    {
+        if(serviceUsuario.bizumMoney(fPhone, tPhone, money))
+            return ResponseEntity.ok().body("The Bizum has Been Properly Done from: "+ fPhone + " to: "+ tPhone);
+        else
+            return ResponseEntity.internalServerError().body("Not Enough Money in the Account");
+    }
+
 }
+
