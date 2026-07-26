@@ -1,15 +1,8 @@
 package com.pablominguez.BankATM.Usuario;
 
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
-import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import javax.swing.text.html.Option;
-import java.net.URI;
 import java.util.*;
 
 @Service
@@ -141,7 +134,7 @@ public class ServiceUsuario
     }
 
     @Transactional
-    public DTOUsuario updateMoneyByDni(String dni, Double money)
+    public DTOUsuario ingresaMoneyByDni(String dni, Double money)
     {
         Optional<Usuario> user = repoUsuario.findByDni(dni);
 
@@ -149,9 +142,24 @@ public class ServiceUsuario
 
         repoUsuario.updateMoneyByDni(dni, money);
 
-        user = repoUsuario.findByDni(dni);
+        DTOUsuario dto = new DTOUsuario(user.get().getName(), user.get().getApellidos(), money);
 
-        DTOUsuario dto = new DTOUsuario(user.get().getName(), user.get().getApellidos(), user.get().getMoney());
+        return dto;
+    }
+
+    @Transactional
+    public DTOUsuario retireMoneyByDni(String dni, Double money)
+    {
+        Optional<Usuario> user = repoUsuario.findByDni(dni);
+
+        if(money<=user.get().getMoney())
+            money = user.get().getMoney() - money;
+        else
+            throw new RuntimeException("No hay Suficiente Dinero en la Cuenta");
+
+        repoUsuario.updateMoneyByDni(dni, money);
+
+        DTOUsuario dto = new DTOUsuario(user.get().getName(), user.get().getApellidos(), money);
 
         return dto;
     }

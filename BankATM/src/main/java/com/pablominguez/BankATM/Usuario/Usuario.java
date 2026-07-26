@@ -25,5 +25,4 @@ public class Usuario
     private String phone;
     private double money;
     private String location;
-
 }

@@ -1,6 +1,5 @@
 //Corregir con If's para no siempre enviar el mismo Status Code
 
-
 package com.pablominguez.BankATM.Usuario;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -8,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import java.net.URI;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -93,11 +91,11 @@ public class ControllerUsuario
     }
 
     @PutMapping("user/insertByDni/{dni}")
-    public ResponseEntity<HashMap<String, String>> updateMoneyByDni(@PathVariable String dni, @RequestBody Double money)
+    public ResponseEntity<HashMap<String, String>> ingresaMoneyByDni(@PathVariable String dni, @RequestBody Double money)
     {
         HashMap<String, String> map = new HashMap<>();
 
-        DTOUsuario dto = serviceUsuario.updateMoneyByDni(dni,money);
+        DTOUsuario dto = serviceUsuario.ingresaMoneyByDni(dni,money);
 
         map.put("name:", dto.getName());
         map.put("apellidos:",dto.getApellidos());
@@ -107,4 +105,18 @@ public class ControllerUsuario
         return ResponseEntity.ok().body(map);
     }
 
+    @PutMapping("user/retireByDni/{dni}")
+    public ResponseEntity<HashMap<String, String>> retiraMoneyByDni(@PathVariable String dni, @RequestBody Double money)
+    {
+        HashMap<String, String> map = new HashMap<>();
+
+        DTOUsuario dto = serviceUsuario.retireMoneyByDni(dni, money);
+
+        map.put("name:", dto.getName());
+        map.put("apellidos:", dto.getApellidos());
+        map.put("money:", String.valueOf(dto.getMoney()));
+        map.put("INFO:","Su cuenta ha sido reducida en una cantidad de: " + money);
+
+        return ResponseEntity.ok().body(map);
+    }
 }
